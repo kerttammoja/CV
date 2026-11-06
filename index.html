@@ -14,7 +14,8 @@
                 <img src="images/profile.jpg" alt="Mark Tamm">
             </div>
             <div class="profile-info">
-                <h1>Mark Tamm</h1>
+                <!-- Nimi laetakse JSON-ist -->
+                <h1 id="profile-name"></h1>
                 <p class="subtitle">Junior Web Designer</p>
                 <p class="bio">
                     Olen motiveeritud ja loov noor, kellele pakuvad huvi veebidisain ja tehnoloogia. 
@@ -42,7 +43,6 @@
                     </div>
                 </div>
             </section>
-
 
             <section class="section">
                 <h2 class="main-title">Töökogemus</h2>
@@ -73,7 +73,8 @@
 
             <section class="section">
                 <h2 class="main-title">Kompetentsid</h2>
-                <p>Figma, HTML, CSS, UI/UX, Photoshop, Canva, Responsive Design</p>
+                <!-- Oskused laetakse JSON-ist -->
+                <p id="profile-skills"></p>
             </section>
 
             <section class="section">
@@ -86,7 +87,8 @@
                 <ul class="contact-list">
                     <li>
                         <i class="fa-solid fa-envelope"></i>
-                        <a href="mailto:mark.tamm@example.com">mark.tamm@example.com</a>
+                        <!-- E-mail laetakse JSON-ist -->
+                        <a id="profile-email" href="#"></a>
                     </li>
                     <li>
                         <i class="fa-brands fa-facebook"></i>
@@ -102,5 +104,24 @@
             </div>
         </footer>
     </div>
+
+    <!-- JavaScript, mis loeb andmed profile.json failist ja paneb need HTML-i -->
+    <script>
+        fetch('profile.json')
+            .then(response => response.json())
+            .then(data => {
+                
+                document.getElementById('profile-name').textContent = `${data.nimi} ${data.perekonnanimi}`;
+                
+                // E-mail
+                const emailEl = document.getElementById('profile-email');
+                emailEl.textContent = data.gmail;
+                emailEl.href = `mailto:${data.gmail}`;
+
+                
+                document.getElementById('profile-skills').textContent = data.oskused.join(', ');
+            })
+            .catch(error => console.error('Viga JSON faili laadimisel:', error));
+    </script>
 </body>
 </html>
